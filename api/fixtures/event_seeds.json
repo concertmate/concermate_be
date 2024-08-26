@@ -1,0 +1,28 @@
+[
+  {
+    "model": "api.event", 
+    "pk": 1,
+    "fields": {
+      "event_name": "Concert 1",
+      "date_time": "2024-08-26 00:00:00",
+      "venue_name": "Venue 1",
+      "artist": "Artist 1",
+      "location": "Location 1",
+      "spotify_artist_id": "1",
+      "ticketmaster_event_id": "1"
+    }
+  },
+  {
+    "model": "api.event", 
+    "pk": 2,
+    "fields": {
+      "event_name": "Concert 2",
+      "date_time": "2024-09-15 00:00:00",
+      "venue_name": "Venue 2",
+      "artist": "Artist 2",
+      "location": "Location 2",
+      "spotify_artist_id": "2",
+      "ticketmaster_event_id": "2"
+    }
+  }
+]
