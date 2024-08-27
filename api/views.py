@@ -25,30 +25,41 @@ def create_user(request):
 @csrf_exempt
 def create_event(request, user_id):
     if request.method == 'POST':
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        
         user = get_object_or_404(User, id=user_id)
         
-        event = Event.objects.create(
-            venue_name=data.get('venue_name'),
-            event_name=data.get('event_name'),
-            date_time=data.get('date_time'),
-            artist=data.get('artist'),
-            location=data.get('location'),
-            spotify_artist_id=data.get('spotify_artist_id'),
-            ticketmaster_event_id=data.get('ticketmaster_event_id'),
-            owner=user
-        )
-        
-        return JsonResponse({
-            'data': {
-                'event_id': event.id,
-                'event_name': event.event_name,
-                'venue_name': event.venue_name,
-                'date_time': event.date_time,
-                'artist': event.artist,
-                'location': event.location,
-            }
-        })
+        try:
+            event = Event.objects.create(
+                venue_name=data.get('venue_name'),
+                event_name=data.get('event_name'),
+                date_time=data.get('date_time'),
+                artist=data.get('artist'),
+                location=data.get('location'),
+                spotify_artist_id=data.get('spotify_artist_id'),
+                ticketmaster_event_id=data.get('ticketmaster_event_id'),
+                owner=user
+            )
+            
+            return JsonResponse({
+                'data': {
+                    'event_id': event.id,
+                    'event_name': event.event_name,
+                    'venue_name': event.venue_name,
+                    'date_time': event.date_time,
+                    'artist': event.artist,
+                    'location': event.location,
+                    'spotify_artist_id': event.spotify_artist_id,
+                    'ticketmaster_event_id': event.ticketmaster_event_id,
+                    'owner': user.username
+                }
+            }, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
 def join_event(request, user_id, event_id):
