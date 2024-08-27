@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 import json
 from .models import Event, Attendee
 from django.contrib.auth.models import User
