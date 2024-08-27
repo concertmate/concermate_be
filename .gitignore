@@ -1,0 +1,35 @@
+# Python-specific
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Django-specific
+*.log
+*.pot
+*.py[cod]
+db.sqlite3
+instance/
+.venv/
+media/
+staticfiles/
+*.mo
+*.pot
+
+# Environment variables file
+.env
+
+# VS Code
+.vscode/
+
+# MacOS-specific
+.DS_Store
+
+# Git-specific
+.git/

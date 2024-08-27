@@ -1,0 +1,24 @@
+[
+  {
+    "model": "api.user",
+    "pk": 1,
+    "fields": {
+      "username": "JHerbert",
+      "email": "justin@email.com",
+      "password_digest": "password",
+      "created_at": "2024-08-26T00:00:00Z",
+      "updated_at": "2024-08-26T00:00:00Z"
+    }
+  },
+  {
+    "model": "api.user",
+    "pk": 2,
+    "fields": {
+      "username": "JonnyM2",
+      "email": "manziel@email.com",
+      "password_digest": "password",
+      "created_at": "2024-08-26T00:00:00Z",
+      "updated_at": "2024-08-26T00:00:00Z"
+    }
+  }
+]
