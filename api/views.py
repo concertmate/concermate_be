@@ -119,3 +119,32 @@ def users_attending_event(request, event_id):
                 ]
             }
         })
+    
+@csrf_exempt
+def get_user_events(request, user_id):
+    if request.method == 'GET':
+        user = get_object_or_404(User, id=user_id)
+        
+        events = Event.objects.filter(owner=user)
+
+        return JsonResponse({
+            'data': {
+                'user_id': user.id,
+                'username': user.username,
+                'events': [
+                    {
+                        'event_id': event.id,
+                        'event_name': event.event_name,
+                        'venue_name': event.venue_name,
+                        'date_time': event.date_time,
+                        'artist': event.artist,
+                        'location': event.location,
+                        'spotify_artist_id': event.spotify_artist_id,
+                        'ticketmaster_event_id': event.ticketmaster_event_id,
+                        'owner': user.id
+                    }
+                    for event in events
+                ]
+            }
+        })
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
