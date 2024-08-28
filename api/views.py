@@ -148,3 +148,34 @@ def get_user_events(request, user_id):
             }
         })
     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def get_one_event(request, user_id, event_id):
+    if request.method == 'GET':
+        user = get_object_or_404(User, id=user_id)
+
+        event = get_object_or_404(Event, id=event_id)
+
+        e_1 = Event.objects.filter(owner=user, id=event.id)
+
+        return JsonResponse({
+            'data': {
+                'user_id': user.id,
+                'username': user.username,
+                'events': [
+                    {
+                        'event_id': event.id,
+                        'event_name': event.event_name,
+                        'venue_name': event.venue_name,
+                        'date_time': event.date_time,
+                        'artist': event.artist,
+                        'location': event.location,
+                        'spotify_artist_id': event.spotify_artist_id,
+                        'ticketmaster_event_id': event.ticketmaster_event_id,
+                        'owner': user.id
+                    }
+                    for event in e_1
+                ]
+            }
+        })
+        
