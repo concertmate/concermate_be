@@ -160,10 +160,11 @@ def get_user_events(request, user_id):
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-def get_one_event(request, event_id):
+def get_one_event(request, user_id, event_id):
     if request.method == 'GET':
         try:
-            event = get_object_or_404(Event, id=event_id)
+            user = get_object_or_404(User, id=user_id)
+            event = get_object_or_404(Event, id=event_id, owner=user)
             
             event_data = {
                 'event_id': event.id,
@@ -174,7 +175,7 @@ def get_one_event(request, event_id):
                 'location': event.location,
                 'spotify_artist_id': event.spotify_artist_id,
                 'ticketmaster_event_id': event.ticketmaster_event_id,
-                'owner': event.owner.username
+                'owner': user.username
             }
             
             return JsonResponse({'event': event_data}, status=200)
