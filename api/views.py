@@ -182,25 +182,36 @@ def get_one_event(request, event_id):
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+@csrf_exempt
 @require_POST
 def login_user(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    username = data.get('username')
+    password = data.get('password')
+    
+    if not username or not password:
+        return JsonResponse({'error': 'Missing username or password'}, status=400)
+    
     user = authenticate(request, username=username, password=password)
     
     if user is not None:
         login(request, user)
         return JsonResponse({
-                'data': {
-                    'user_id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'status': 'Logged in'
-                }
-            })
+            'data': {
+                'user_id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'status': 'Logged in'
+            }
+        })
     else:
         return JsonResponse({'error': 'Invalid credentials'}, status=400)
 
+@csrf_exempt
 @require_POST
 @login_required
 def logout_user(request):
@@ -215,9 +226,14 @@ def logout_user(request):
         }
     })
 
-@login_required
+@csrf_exempt
 @require_GET
 def current_session(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({
+            'error': 'No Users Logged in'
+        }, status=401)
+    
     user = request.user
     return JsonResponse({
         'data': {
