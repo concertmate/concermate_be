@@ -178,4 +178,22 @@ def get_one_event(request, user_id, event_id):
                 ]
             }
         })
-        
+    
+@csrf_exempt
+def delete_event(request, user_id, event_id):
+    if request.method == 'DELETE':
+        try:
+            user = get_object_or_404(User, id=user_id)
+            event = get_object_or_404(Event, id=event_id, owner=user)
+            event.delete()
+            return JsonResponse({
+                'message': 'Event deleted successfully',
+                'data': {
+                    'user_id': user.id,
+                    'username': user.username,
+                    'deleted_event_id': event_id
+                }
+            }, status=200)
+        except Event.DoesNotExist:
+            return JsonResponse({'error': 'Event not found or user is not the owner'}, status=404)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
