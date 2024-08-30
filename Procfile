@@ -1,1 +1,1 @@
-web: gunicorn concertmate_be.wsgi --log-file -
+web: gunicorn concertmate-be.wsgi --log-file -
