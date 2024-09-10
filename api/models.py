@@ -24,3 +24,14 @@ class Attendee(models.Model):
 
     def __str__(self):
         return f"{self.user.username} attending {self.event.concert.title}"
+    
+class Token(models.Model):
+    user = models.CharField(unique = True, max_length=50)
+    createed_at = models.DateTimeField(auto_now_add=True)
+    access_token = models.CharField(max_length=500)
+    refresh_token = models.CharField(max_length=500)
+    expires_in = models.DateTimeField()
+    token_type = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.user.username} token is {self.token}"
