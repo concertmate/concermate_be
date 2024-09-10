@@ -61,6 +61,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://concertmate-fe.vercel.app/',
+    'http://127.0.0.1:5173',
 ]
 
 ROOT_URLCONF = 'concertmate_be.urls'
